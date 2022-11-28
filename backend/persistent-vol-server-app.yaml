@@ -1,0 +1,17 @@
+# creating persistent volume and persistent volume claim 
+# so our MongoDB instance can use these cluster level storage 
+# to save our database files.
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: todo-app-pv
+spec:
+ accessModes:
+ - ReadWriteMany ## ReadWriteMany which by definition says read and write can be done by more than one node.
+ capacity:
+   storage: 1G ## capacity set to 1GB.
+ hostPath:
+   path: /tmp/todo-pv  ## hostPath is set to /tmp/todo-pv which can be set to any other directory if needed.
+
+

@@ -1,0 +1,18 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata:
+  name: todo-client-app-deploy 
+spec:
+  replicas: 3      ## it will create 3 no of pods.
+  selector:        ## To keep track the group of resources.
+    matchLabels:
+      app: todo-client-app   
+   template: # it will be used as configuration to create any Pod by the replicaSet that Kubernetes create underneath deployment resource.
+    metadata:
+      labels:
+        app: todo-client-app 
+    spec:    ## information about image 
+      containers:
+      - image: todo-client-kubernetes-app:latest
+        name: container1
+        imagePullPolicy: IfNotPresent

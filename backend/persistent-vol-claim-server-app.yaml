@@ -1,0 +1,17 @@
+## creating persistent volume and persistent volume claim 
+# so our MongoDB instance can use these cluster level storage 
+# to save our database files.
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: todo-pvc
+spec:
+  accessModes:
+  - ReadWriteMany  ## ReadWriteMany which by definition says read and write can be done by more than one node. 
+  resources:
+    requests:
+      storage: 1G  ## Capacity is set to 1gb
+  storageClassName: "" ## It says find a PV with no storage class.
+
+

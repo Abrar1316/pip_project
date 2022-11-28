@@ -1,0 +1,26 @@
+## back-end application deployment file:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-server-app-deploy ## its name
+spec:
+  replicas: 3  ## create 3 pods as replicas
+  selector:
+    matchLabels:
+      app: todo-server-app ## to keep track the group of file
+  template:  ## it is used as configuration to create any pod.
+    metadata:
+      labels:
+        app: todo-server-app
+    spec:
+      containers:
+      - image: todo-server-kubernetes-app:latest
+        name: container1
+        ports:
+        - containerPort: 5000
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: server-side-configs
+        

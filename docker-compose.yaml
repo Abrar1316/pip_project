@@ -1,0 +1,54 @@
+services:
+  mernapi:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: myapp-server
+    container_name: myapp-node-server
+    volumes:
+      - ./backend:/mernBackend
+    ports:
+      - "5000:5000"
+    environment: 
+      PORT: 5000
+      MONGODB_URL: mongodb://mongo:27017
+      DB_NAME: crud
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+  mongo:
+    image: mongo
+    volumes:
+      - mongo:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: myapp-client
+    container_name: myapp-react-client
+    stdin_open: true
+    tty: true
+    volumes:
+      -  ./client:/mernClient
+    depends_on: 
+      - mernapi
+    ports:
+      - "80:80"
+      - "443:443"
+    links:
+      - mernapi
+    networks:
+      - app-network
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+  mongo: {}
+  web-root:
+    driver: local
